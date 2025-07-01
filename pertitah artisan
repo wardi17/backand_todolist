@@ -1,0 +1,2 @@
+php artisan make:model Produk -m
+php artisan make:controller Api/ProdukController --resource
