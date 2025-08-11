@@ -8,6 +8,13 @@ use App\Models\Produk;
 
 class ProdukController extends Controller
 {
+
+
+    public function tampilProduk(){
+        $produk  =['Stompmap','Box File','Buku','Lakban'];
+        return view('produk',compact('produk'));
+
+    }
     /**
      * Display a listing of the resource.
      */

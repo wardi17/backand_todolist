@@ -10,12 +10,20 @@ use Illuminate\Support\Facades\DB;
 class TaskController extends Controller
 {
 
-    public function calldatatrend(Request $request){
+    public function calldatatrend(Request $request)
+    {
 
-        die(print_r($request));
+
         try {
+            $tahun = $request->input('tahun');
+            if (!$tahun) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Parameter tahun tidak diberikan'
+                ], 400);
+            }
             // Panggil stored procedure dengan parameter
-            $result = DB::select('EXEC sp_get_user_by_id @tahun = ?', [$tahun]);
+            $result = DB::select('EXEC usp_TampildataTraks @tahun = ?', [$tahun]);
 
             // Return hasil sebagai JSON
             return response()->json([
@@ -33,7 +41,7 @@ class TaskController extends Controller
     }
     public function index()
     {
-       
+
         return response()->json(Task::all(), 200);
     }
 
@@ -63,7 +71,10 @@ class TaskController extends Controller
 
     public function update(Request $request, $id)
     {
+
+
         $task = Task::find($id);
+
         if (!$task) {
             return response()->json(['message' => 'Task not found'], 404);
         }
@@ -77,7 +88,10 @@ class TaskController extends Controller
             'status' => 'nullable|string',
         ]);
 
+
+
         $task->update($validated);
+       // $this->testhasil($task);
         return response()->json($task, 200);
     }
 
@@ -91,4 +105,17 @@ class TaskController extends Controller
         $task->delete();
         return response()->json(['message' => 'Task deleted successfully'], 200);
     }
+
+
+
+    //fungsi untuk testing
+        private function testhasil($data){
+               return response()->json(['message' => 'wardi ini'.$data], 200);
+        }
+    //and
+
+
+
+
+
 }

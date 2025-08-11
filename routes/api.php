@@ -5,21 +5,21 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\ProdukController;
 
-use App\Http\Controllers\RoadmapController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('tasks', TaskController::class);
+
+// curd todlist dan tampil mengunakan storeposedur router postman ok
+Route::apiResource('tasks', TaskController::class); // outer tambah data baru
+Route::post('/calldatatrend', [TaskController::class, 'calldatatrend']); // router tampil data
+// Route::put('/updatetaks/{id}', [TaskController::class, 'updatetaks']); // router updatedata
+// Route::delete('/destroy/{id}',[TaskController::class, 'destroy']); //  untuk delete
+
+//and curd todlist dan tampil mengunakan storeposedur router postman ok
 
 Route::apiResource('produk', ProdukController::class);
-
-Route::post('/calldatatrend', [TaskController::class, 'calldatatrend']);
-
-
-Route::get('roadmap/export', [RoadmapController::class, 'export']);
-
 Route::get('/webhook/whatsapp', function (Request $request) {
     $verify_token = 'my_verify_token'; // samakan dengan token di Meta webhook
 
