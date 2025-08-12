@@ -97,6 +97,7 @@ class TaskController extends Controller
 
     public function destroy($id)
     {
+        $this->testhasil($id);
         $task = Task::find($id);
         if (!$task) {
             return response()->json(['message' => 'Task not found'], 404);
