@@ -3,16 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
 {
+
+        //fungsi untuk testing
+        private function testhasil($data){
+               return response()->json(['message' => 'wardi ini'.$data], 200);
+        }
+    //and
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+          return response()->json(Kategori::all(), 200);
     }
 
     /**
@@ -20,7 +27,7 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        //
+$this->testhasil('wardi');
     }
 
     /**
@@ -28,7 +35,17 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //  return response()->json([
+        // 'input' => $request->all()
+        // ]);
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'Deskripsi' => 'nullable|string|max:500',
+        ]);
+
+         $task = Kategori::create($validated);
+        return response()->json($task, 201);
+
     }
 
     /**
@@ -36,7 +53,11 @@ class KategoriController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $task = Kategori::find($id);
+        if (!$task) {
+            return response()->json(['message' => 'Task not found'], 404);
+        }
+        return response()->json($task, 200);
     }
 
     /**
@@ -52,7 +73,24 @@ class KategoriController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+
+        $task = Kategori::find($id);
+
+        if (!$task) {
+            return response()->json(['message' => 'Task not found'], 404);
+        }
+
+         $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'Deskripsi' => 'nullable|string|max:500',
+        ]);
+
+
+
+        $task->update($validated);
+       // $this->testhasil($task);
+        return response()->json($task, 200);
     }
 
     /**
@@ -60,6 +98,12 @@ class KategoriController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+         $task = Kategori::find($id);
+        if (!$task) {
+            return response()->json(['message' => 'Task not found'], 404);
+        }
+
+        $task->delete();
+        return response()->json(['message' => 'Task deleted successfully'], 200);
     }
 }

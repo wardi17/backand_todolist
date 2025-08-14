@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\ProdukController;
+use App\Http\Controllers\Api\KategoriController;
 
 
 Route::get('/user', function (Request $request) {
@@ -14,10 +15,12 @@ Route::get('/user', function (Request $request) {
 // curd todlist dan tampil mengunakan storeposedur router postman ok
 Route::apiResource('tasks', TaskController::class); // outer tambah data baru
 Route::post('/calldatatrend', [TaskController::class, 'calldatatrend']); // router tampil data
-// Route::put('/updatetaks/{id}', [TaskController::class, 'updatetaks']); // router updatedata
-// Route::delete('/destroy/{id}',[TaskController::class, 'destroy']); //  untuk delete
-
 //and curd todlist dan tampil mengunakan storeposedur router postman ok
+
+// curd kategori dan tampil mengunakan storeposedur router postman ok
+Route::apiResource('kategori', KategoriController::class); // outer tambah data baru
+//Route::post('/calldatatrend', [TaskController::class, 'calldatatrend']); // router tampil data
+//and curd kategori dan tampil mengunakan storeposedur router postman ok
 
 Route::apiResource('produk', ProdukController::class);
 Route::get('/webhook/whatsapp', function (Request $request) {
